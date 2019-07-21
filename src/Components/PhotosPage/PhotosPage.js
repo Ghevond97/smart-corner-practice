@@ -1,24 +1,50 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import { connect } from 'react-redux';
+import { MDBBtn, MDBCard, MDBCardBody, MDBCardImage, MDBCardTitle, MDBCardText, MDBCol } from 'mdbreact';
+
+
+import {photos as photosActions} from '../../store/actions';
+
 
 class PhotosPage extends Component {
   componentDidMount() {
+    const {getPhotos} = this.props;
     console.log('MOUNT')
-    const url = `https://jsonplaceholder.typicode.com/photos`;
-    axios
-      .get(url, { headers: { 'Content-Type': 'application/json',  range: 'bytes=0-10' } })
-      .then(res => res.data)
-      .then((data) => console.log('DATA', data))
-      .catch(e => console.log(e));
+    getPhotos(1,10);
   }
 
   render() {
+    const {photos} = this.props;
     return (
-      <div>
-        Photos
+      <div style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}>
+        {photos.map(photo => {
+          return(<MDBCol>
+            <MDBCard style={{ width: "22rem" }}>
+              <MDBCardImage className="img-fluid" src={`${photo.url}`} waves />
+              <MDBCardBody>
+                <MDBCardTitle>{photo.title}</MDBCardTitle>
+              </MDBCardBody>
+            </MDBCard>
+          </MDBCol>)
+       
+    })}
       </div>
     );
   }
 }
 
-export default PhotosPage;
+
+function mapStateToProps(state) {
+  return {
+   photos: state.photos.photos,
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    getPhotos: (start, limit) =>  dispatch(photosActions.getPhotos(start, limit))
+  }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(PhotosPage);
