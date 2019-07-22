@@ -1,10 +1,24 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Router, Switch, Route, Redirect, Link } from 'react-router-dom';
 import { posts as postsActions } from '../../store/actions';
 
 import { MDBBtn, MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact';
 import Rodal from 'rodal';
 import 'rodal/lib/rodal.css';
+import PostById from '../PostById/PostById';
+
+// const SubRoutes = (match) => {
+//   return(
+// <Route path={`${match.path}/:topicId`} component={() => (<PostById id={id}/>)} />
+// )
+
+//}
+
+const PostId = ({ match }) => {
+  console.log('POSTID');
+  return <h2>{match.params.postId}</h2>;
+};
 
 class PostsPage extends Component {
   constructor(props) {
@@ -72,7 +86,7 @@ class PostsPage extends Component {
   }
 
   render() {
-    const { posts } = this.props;
+    const { posts, match } = this.props;
     const { selectedRowIndex } = this.state;
     console.log('posts', posts);
     return (
@@ -92,10 +106,18 @@ class PostsPage extends Component {
             {posts.map((post, index) => {
               return (
                 <tr>
-                  <td>{index}</td>
-                  <td>{post.id}</td>
-                  <td>{post.title}</td>
-                  <td>{post.body}</td>
+                  <td>
+                    <Link to={`${match.url}/${post.id}`}>{index}</Link>
+                  </td>
+                  <td>
+                    <Link to={`${match.url}/${post.id}`}>{post.id}</Link>
+                  </td>
+                  <td>
+                    <Link to={`${match.url}/${post.id}`}>{post.title}</Link>
+                  </td>
+                  <td>
+                    <Link to={`${match.url}/${post.id}`}>{post.body}</Link>
+                  </td>
                   <td>
                     <MDBBtn
                       href="#"
@@ -185,6 +207,10 @@ class PostsPage extends Component {
             Cancel
           </MDBBtn>
         </Rodal>
+        {/* <PostById /> */}
+        {console.log('match', match)}
+
+        {/* <Route path={`${match.url}/:postId`} componet={PostId} /> */}
       </div>
     );
   }
