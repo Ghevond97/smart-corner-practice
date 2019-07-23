@@ -31,6 +31,10 @@ const postsReducer = handleActions(
       return {
         ...state,
         posts: payload,
+        isLoading: {
+          ...state.isLoading,
+          isPostsLoading: isLoading,
+        }
       };
     },
 

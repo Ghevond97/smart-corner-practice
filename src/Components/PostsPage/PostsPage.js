@@ -82,7 +82,7 @@ class PostsPage extends Component {
   componentDidMount() {
     const { getPosts } = this.props;
     console.log('MOUNT');
-    getPosts(1, 10);
+    getPosts(0, 10);
   }
 
   render() {
