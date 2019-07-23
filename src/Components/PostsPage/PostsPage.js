@@ -1,24 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Router, Switch, Route, Redirect, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { posts as postsActions } from '../../store/actions';
 
 import { MDBBtn, MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact';
 import Rodal from 'rodal';
 import 'rodal/lib/rodal.css';
-import PostById from '../PostById/PostById';
-
-// const SubRoutes = (match) => {
-//   return(
-// <Route path={`${match.path}/:topicId`} component={() => (<PostById id={id}/>)} />
-// )
-
-//}
-
-const PostId = ({ match }) => {
-  console.log('POSTID');
-  return <h2>{match.params.postId}</h2>;
-};
 
 class PostsPage extends Component {
   constructor(props) {
@@ -33,7 +20,6 @@ class PostsPage extends Component {
   }
 
   show = () => {
-    console.log('SHOW');
     this.setState({ showDeleteModal: true });
   };
 
@@ -49,7 +35,6 @@ class PostsPage extends Component {
   };
 
   delete = index => {
-    console.log('delete');
     const { deletePost, posts } = this.props;
     let updatedPosts = posts;
     delete updatedPosts[index];
@@ -58,7 +43,6 @@ class PostsPage extends Component {
 
   editPostSubmit(index) {
     const { editPost, posts } = this.props;
-    console.log('index', index);
     let updatedPosts = posts;
     updatedPosts[index].title = this.state.editPostTitle;
     updatedPosts[index].body = this.state.editPostDescription;
@@ -66,29 +50,21 @@ class PostsPage extends Component {
   }
 
   handleInputChange(event) {
-    const target = event.target;
-    console.log('TARGET', target);
-    // const value = target.type === 'checkbox' ? target.checked : target.value;
-    // const name = target.name;
-
     this.setState({ [event.target.name]: event.target.value });
   }
 
   setSelectedRowIndex = index => {
-    console.log('index', index);
     this.setState({ selectedRowIndex: index });
   };
 
   componentDidMount() {
     const { getPosts } = this.props;
-    console.log('MOUNT');
     getPosts(0, 10);
   }
 
   render() {
     const { posts, match } = this.props;
     const { selectedRowIndex } = this.state;
-    console.log('posts', posts);
     return (
       <div>
         <MDBTable>
@@ -207,10 +183,6 @@ class PostsPage extends Component {
             Cancel
           </MDBBtn>
         </Rodal>
-        {/* <PostById /> */}
-        {console.log('match', match)}
-
-        {/* <Route path={`${match.url}/:postId`} componet={PostId} /> */}
       </div>
     );
   }

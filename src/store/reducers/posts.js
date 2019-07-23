@@ -14,7 +14,6 @@ const initialState = {
 const postsReducer = handleActions(
   {
     GET_POSTS(state, { isLoading, payload, error }) {
-      console.log('PAYOAD', payload);
       if (isLoading || error) {
         return {
           ...state,
@@ -34,7 +33,7 @@ const postsReducer = handleActions(
         isLoading: {
           ...state.isLoading,
           isPostsLoading: isLoading,
-        }
+        },
       };
     },
 
